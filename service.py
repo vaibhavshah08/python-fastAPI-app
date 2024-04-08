@@ -10,12 +10,12 @@ def create_student(student: Student):
   inserted_student = collection.insert_one(student_data)
   return {"id": str(inserted_student.inserted_id)}
 
-def get_students(country: str = None, age: int = None) -> List[dict]:
+def get_students(country: str = None, min_age: int = 0) -> List[dict]:
   query = {}
   if country:
     query["address.country"] = country
-  if age:
-    query["age"] = age
+  if min_age:
+     query["age"] = {"$gte": min_age}
   students = []
   for student_data in collection.find(query):
     students.append(student_data)
